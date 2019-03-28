@@ -1,22 +1,23 @@
 import React from 'react'
-import {AuthConsumer, } from '../providers/AuthProviders'
-import { Menu, MenuMenu, } from 'semantic-ui-react'
-import {Link, } from 'react-router-dom'
+import { AuthConsumer, } from "../providers/AuthProviders";
+import { Menu, } from 'semantic-ui-react'
+import { Link, withRouter, } from 'react-router-dom'
 
-class Navbar extends React.Component{
+class Navbar extends React.Component {
+  
   rightNavItems = () => {
     const { auth: { user, handleLogout, }, location, } = this.props;
-
-    if (user){
+    
+    if (user) {
       return (
         <Menu.Menu position='right'>
           <Menu.Item
             name='logout'
-            onClick={() => handleLogout(this.props.history)}
-            />
+            onClick={ () => handleLogout(this.props.history) }
+          />
         </Menu.Menu>
       )
-  } else {
+    } else {
       return (
         <Menu.Menu position='right'>
           <Link to='/login'>
@@ -37,35 +38,35 @@ class Navbar extends React.Component{
       )
     }
   }
-
+  
   render() {
-    return(
+    return (
       <div>
         <Menu pointing secondary>
           <Link to='/'>
             <Menu.Item
-              name= 'home'
-              id=' home'
-              active={this.props.location.pathname == '/'}
-              />
+              name='home'
+              id='home'
+              active={this.props.location.pathname === '/'}
+            />
           </Link>
-            {this.rightNavItems}
-        </ Menu>
+            { this.rightNavItems() }
+        </Menu>
       </div>
     )
   }
 }
 
 export class ConnectedNavbar extends React.Component {
-  render(){
-    return(
-      <AuthConsumer>
-        { auth =>
-          <Navbar { ...this.props} auth={auth}/>
+  render() {
+    return (
+      <AuthConsumer> 
+        { auth => 
+          <Navbar { ...this.props } auth={auth} />
         }
       </AuthConsumer>
     )
   }
 }
 
-export default withRouter(ConnectedNavbar)
+export default withRouter(ConnectedNavbar);
